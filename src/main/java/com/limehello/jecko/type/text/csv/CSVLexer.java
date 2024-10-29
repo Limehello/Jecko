@@ -23,14 +23,14 @@ public class CSVLexer {
       char currentChar = input.charAt(position);
 
       if (currentChar == '"') {
-        insideQuotes = !insideQuotes; // Toggle the state of being inside quotes
+        insideQuotes = !insideQuotes;
         position++;
         continue;
       }
 
       if (currentChar == ',') {
         if (insideQuotes) {
-          currentToken.append(currentChar); // Preserve commas inside quotes
+          currentToken.append(currentChar); // Keep commas inside quoted strings
         } else {
           if (currentToken.length() > 0) {
             tokens.add(createToken(currentToken.toString(), insideQuotes ? CSVTokenType.QSTRING : CSVTokenType.STRING));
@@ -52,7 +52,7 @@ public class CSVLexer {
         continue;
       }
 
-      if (Character.isWhitespace(currentChar)) {
+      if (Character.isWhitespace(currentChar) && !insideQuotes) {
         position++;
         continue; // Skip whitespace characters outside of quotes
       }
@@ -70,6 +70,9 @@ public class CSVLexer {
   private CSVToken createToken(String value, CSVTokenType type) {
     if (type == CSVTokenType.STRING && value.matches("-?\\d+(\\.\\d+)?")) {
       return new CSVToken(value, CSVTokenType.NUMBER); // Identify numbers correctly
+    }
+    if (type == CSVTokenType.STRING) {
+      return new CSVToken(value.replaceAll("\\s+", ""), CSVTokenType.STRING); // Remove whitespace for string tokens
     }
     return new CSVToken(value, type);
   }
