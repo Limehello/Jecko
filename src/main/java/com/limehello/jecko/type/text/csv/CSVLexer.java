@@ -13,6 +13,8 @@ public class CSVLexer {
     this.position = 0;
   }
   public List<CSVToken> tokenize() {
-    List<CSVToken> tokens = new Array
+    List<CSVToken> tokens = new ArrayList<>();
+    StringBuilder currentToken = new StringBuilder();
+    CSVTokenType currentType = CSVTokenType.SPACE;
   }
 }
