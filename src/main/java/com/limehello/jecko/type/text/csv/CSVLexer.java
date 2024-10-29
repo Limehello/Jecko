@@ -19,7 +19,7 @@ public class CSVLexer {
     while (position < input.length()) {
       char currentChar = input.charAt(position);
       if (currentChar == '"') {
-        insideQuotes = !insideQuotes; // Toggle insideQuotes flag
+        insideQuotes = !insideQuotes;
         position++;
         continue;
       }
@@ -28,7 +28,7 @@ public class CSVLexer {
           currentToken.append(currentChar);
         } else {
           if (currentToken.length() > 0) {
-            tokens.add(createToken(currentToken.toString(), CSVTokenType.QSTRING));
+            tokens.add(createToken(currentToken.toString(), insideQuotes ? CSVTokenType.QSTRING : CSVTokenType.STRING));
             currentToken.setLength(0);
           }
           tokens.add(new CSVToken(",", CSVTokenType.COMMA));
@@ -36,23 +36,18 @@ public class CSVLexer {
         position++;
         continue;
       }
-      if (currentChar == '\n' || position == input.length() - 1) {
-        if (position == input.length() - 1 && currentChar != '\n') {
-          currentToken.append(currentChar); // Add last character if not newline
-        }
+      if (Character.isWhitespace(currentChar)) {
+        position++;
+        continue;
+      }
+      if (currentChar == '\n') {
         if (currentToken.length() > 0) {
           tokens.add(createToken(currentToken.toString(), insideQuotes ? CSVTokenType.QSTRING : CSVTokenType.STRING));
           currentToken.setLength(0);
         }
-        if (currentChar == '\n') {
-          tokens.add(new CSVToken("\\n", CSVTokenType.NEWLINE));
-        }
+        tokens.add(new CSVToken("\\n", CSVTokenType.NEWLINE));
         position++;
         continue;
-      }
-      if (Character.isWhitespace(currentChar)) {
-        position++;
-        continue; // Skip whitespace
       }
       currentToken.append(currentChar);
       position++;
@@ -66,6 +61,6 @@ public class CSVLexer {
     if (type == CSVTokenType.STRING && value.matches("-?\\d+(\\.\\d+)?")) {
       return new CSVToken(value, CSVTokenType.NUMBER);
     }
-    return new CSVToken(value.trim(), type); // Trim to remove leading/trailing spaces
+    return new CSVToken(value, type);
   }
 }
