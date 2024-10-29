@@ -15,4 +15,11 @@ public class CSVToken {
   public String getValue() {
     return value;
   }
+  @Override
+  public String toString() {
+    return "CSVToken{" +
+      "value=" + value +
+      ", type=" + type +
+      "}";
+  }
 }
