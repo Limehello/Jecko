@@ -8,24 +8,29 @@ import com.limehello.jecko.type.text.csv.CSVTokenType;
 public class CSVLexer {
   private final String input;
   private int position;
+
   public CSVLexer(String input) {
     this.input = input;
     this.position = 0;
   }
+
   public List<CSVToken> tokenize() {
     List<CSVToken> tokens = new ArrayList<>();
     StringBuilder currentToken = new StringBuilder();
     boolean insideQuotes = false;
+
     while (position < input.length()) {
       char currentChar = input.charAt(position);
+
       if (currentChar == '"') {
-        insideQuotes = !insideQuotes;
+        insideQuotes = !insideQuotes; // Toggle the state of being inside quotes
         position++;
         continue;
       }
+
       if (currentChar == ',') {
         if (insideQuotes) {
-          currentToken.append(currentChar);
+          currentToken.append(currentChar); // Preserve commas inside quotes
         } else {
           if (currentToken.length() > 0) {
             tokens.add(createToken(currentToken.toString(), insideQuotes ? CSVTokenType.QSTRING : CSVTokenType.STRING));
@@ -36,10 +41,7 @@ public class CSVLexer {
         position++;
         continue;
       }
-      if (Character.isWhitespace(currentChar)) {
-        position++;
-        continue;
-      }
+
       if (currentChar == '\n') {
         if (currentToken.length() > 0) {
           tokens.add(createToken(currentToken.toString(), insideQuotes ? CSVTokenType.QSTRING : CSVTokenType.STRING));
@@ -49,17 +51,25 @@ public class CSVLexer {
         position++;
         continue;
       }
-      currentToken.append(currentChar);
+
+      if (Character.isWhitespace(currentChar)) {
+        position++;
+        continue; // Skip whitespace characters outside of quotes
+      }
+
+      currentToken.append(currentChar); // Accumulate character into the current token
       position++;
     }
+
     if (currentToken.length() > 0) {
       tokens.add(createToken(currentToken.toString(), insideQuotes ? CSVTokenType.QSTRING : CSVTokenType.STRING));
     }
     return tokens;
   }
+
   private CSVToken createToken(String value, CSVTokenType type) {
     if (type == CSVTokenType.STRING && value.matches("-?\\d+(\\.\\d+)?")) {
-      return new CSVToken(value, CSVTokenType.NUMBER);
+      return new CSVToken(value, CSVTokenType.NUMBER); // Identify numbers correctly
     }
     return new CSVToken(value, type);
   }
