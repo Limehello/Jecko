@@ -51,7 +51,7 @@ public class CSVLexer {
             position++;
           }
         }
-        tokens.add(new CSVToken(currentToken.toString(), CSVTokenType.QUOTED_STRING));
+        tokens.add(new CSVToken(currentToken.toString(), CSVTokenType.QSTRING));
         currentToken.setLength(0);
         continue;
       }
