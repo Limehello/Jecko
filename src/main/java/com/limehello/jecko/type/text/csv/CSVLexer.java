@@ -19,6 +19,8 @@ public class CSVLexer {
     while (position < input.length()) {
       char currentChar = input.charAt(position);
       if (Character.isWhitespace(currentChar)) {
+        if (currentChar == '\n') tokens.add(new CSVToken("\\n", CSVTokenType.NEWLINE));
+        else tokens.add(new CSVToken(" ", CSVTokenType.SPACE));
         position++;
         continue;
       }
@@ -55,11 +57,8 @@ public class CSVLexer {
         currentToken.setLength(0);
         continue;
       }
-      if (Character.isDigit(currentChar) || 
-          (currentChar == '-' && position + 1 < input.length() && 
-           Character.isDigit(input.charAt(position + 1)))) {
-        while (position < input.length() && 
-              (Character.isDigit(input.charAt(position)) || input.charAt(position) == '.')) {
+      if (Character.isDigit(currentChar) || (currentChar == '-' && position + 1 < input.length() && Character.isDigit(input.charAt(position + 1)))) {
+        while (position < input.length() && (Character.isDigit(input.charAt(position)) || input.charAt(position) == '.')) {
           currentToken.append(input.charAt(position));
           position++;
         }
