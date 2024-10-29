@@ -15,63 +15,50 @@ public class CSVLexer {
   public List<CSVToken> tokenize() {
     List<CSVToken> tokens = new ArrayList<>();
     StringBuilder currentToken = new StringBuilder();
-    CSVTokenType currentType = CSVTokenType.SPACE;
+    boolean insideQuotes = false;
     while (position < input.length()) {
       char currentChar = input.charAt(position);
-      if (Character.isWhitespace(currentChar)) {
-        if (currentChar == '\n') tokens.add(new CSVToken("\\n", CSVTokenType.NEWLINE));
-        else tokens.add(new CSVToken(" ", CSVTokenType.SPACE));
+      if (currentChar == '"') {
+        insideQuotes = !insideQuotes; // Toggle insideQuotes flag
         position++;
         continue;
       }
       if (currentChar == ',') {
+        if (insideQuotes) {
+          currentToken.append(currentChar);
+        } else {
+          if (currentToken.length() > 0) {
+            tokens.add(createToken(currentToken.toString(), CSVTokenType.QSTRING));
+            currentToken.setLength(0);
+          }
+          tokens.add(new CSVToken(",", CSVTokenType.COMMA));
+        }
+        position++;
+        continue;
+      }
+      if (currentChar == '\n' || position == input.length() - 1) {
+        if (position == input.length() - 1 && currentChar != '\n') {
+          currentToken.append(currentChar); // Add last character if not newline
+        }
         if (currentToken.length() > 0) {
-          tokens.add(createToken(currentToken.toString(), currentType));
+          tokens.add(createToken(currentToken.toString(), insideQuotes ? CSVTokenType.QSTRING : CSVTokenType.STRING));
           currentToken.setLength(0);
         }
-        tokens.add(new CSVToken(",", CSVTokenType.COMMA));
+        if (currentChar == '\n') {
+          tokens.add(new CSVToken("\\n", CSVTokenType.NEWLINE));
+        }
         position++;
         continue;
       }
-      if (currentChar == '"') {
+      if (Character.isWhitespace(currentChar)) {
         position++;
-        boolean isEscaped = false;
-        while (position < input.length()) {
-          currentChar = input.charAt(position);
-          if (currentChar == '"' && !isEscaped) {
-            if (position + 1 < input.length() && input.charAt(position + 1) == '"') {
-              currentToken.append('"');
-              isEscaped = true;
-              position += 2;
-            } else {
-              position++;
-              break;
-            }
-          } else {
-            currentToken.append(currentChar);
-            isEscaped = false;
-            position++;
-          }
-        }
-        tokens.add(new CSVToken(currentToken.toString(), CSVTokenType.QSTRING));
-        currentToken.setLength(0);
-        continue;
-      }
-      if (Character.isDigit(currentChar) || (currentChar == '-' && position + 1 < input.length() && Character.isDigit(input.charAt(position + 1)))) {
-        while (position < input.length() && (Character.isDigit(input.charAt(position)) || input.charAt(position) == '.')) {
-          currentToken.append(input.charAt(position));
-          position++;
-        }
-        tokens.add(new CSVToken(currentToken.toString(), CSVTokenType.NUMBER));
-        currentToken.setLength(0);
-        continue;
+        continue; // Skip whitespace
       }
       currentToken.append(currentChar);
-      currentType = CSVTokenType.STRING;
       position++;
     }
     if (currentToken.length() > 0) {
-      tokens.add(createToken(currentToken.toString(), currentType));
+      tokens.add(createToken(currentToken.toString(), insideQuotes ? CSVTokenType.QSTRING : CSVTokenType.STRING));
     }
     return tokens;
   }
@@ -79,6 +66,6 @@ public class CSVLexer {
     if (type == CSVTokenType.STRING && value.matches("-?\\d+(\\.\\d+)?")) {
       return new CSVToken(value, CSVTokenType.NUMBER);
     }
-    return new CSVToken(value, type);
+    return new CSVToken(value.trim(), type); // Trim to remove leading/trailing spaces
   }
 }
