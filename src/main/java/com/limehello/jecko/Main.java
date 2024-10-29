@@ -3,7 +3,6 @@ package com.limehello.jecko;
 import com.limehello.jecko.type.text.csv.CSVToken;
 import com.limehello.jecko.type.text.csv.CSVTokenType;
 import com.limehello.jecko.type.text.csv.CSVLexer;
-import com.limehello.jecko.type.text.csv.CSVTokens;
 
 import java.util.List;
 
