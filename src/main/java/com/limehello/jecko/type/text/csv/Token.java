@@ -1,5 +1,11 @@
 package com.limehello.jecko.type.text.csv;
 
 public final class Token {
-  public
+  enum Type {
+    INVALID,
+    TOKEN,
+    EOF,
+    EORECORD,
+    COMMENT
+  }
 }
