@@ -2,6 +2,8 @@ package com.limehello.jecko.type.text.csv;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.limehello.jecko.type.text.csv.CSVToken;
+import com.limehello.jecko.type.text.csv.CSVTokenType;
 
 public class CSVLexer {
   private String input;
@@ -10,5 +12,7 @@ public class CSVLexer {
     this.input = input;
     this.position = 0;
   }
-  public List<CSV
+  public List<CSVToken> tokenize() {
+    List<CSVToken> tokens = new Array
+  }
 }
