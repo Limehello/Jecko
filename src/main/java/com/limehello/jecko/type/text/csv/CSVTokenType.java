@@ -5,5 +5,5 @@ public enum CSVTokenType {
   SPACE,
   NEWLINE,
   TOKEN,
-  QUOTED_TOKEN
+  QTOKEN
 }
