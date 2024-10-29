@@ -4,6 +4,7 @@ public enum CSVTokenType {
   COMMA,
   SPACE,
   NEWLINE,
-  TOKEN,
-  QTOKEN
+  STRING,
+  NUMBER,
+  QSTRING
 }
