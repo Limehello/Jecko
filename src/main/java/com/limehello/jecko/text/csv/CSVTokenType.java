@@ -1,6 +1,6 @@
 package com.limehello.jecko.text.csv;
 
 public enum CSVTokenType {
-  COMMA, QUOTE, WHITESPACE,
+  COMMA, QUOTED_TOKEN, WHITESPACE,
   TOKEN, NEWLINE;
 }
