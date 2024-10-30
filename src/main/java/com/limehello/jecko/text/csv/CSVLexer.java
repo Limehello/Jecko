@@ -11,11 +11,15 @@ public class CSVLexer {
     this.position = 0;
   }
   public List<String> tokenize() {
-    List<String> tokens = new ArrayList<>();
+    List<CSVToken> tokens = new ArrayList<>();
     tokens.clear();
     this.position = 0;
-    for (char ch : this.input.toCharArray()) {
-      if (Character.isWhitespace()
+    while (position < input.length()) {
+      char currentChar = input.charAt(position);
+      if (Character.isWhitespace(currentChar)) {
+        tokens.add(input.charAt(position), );
+        position++;
+      } else if ()
     }
   }
 }
