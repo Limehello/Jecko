@@ -61,7 +61,7 @@ public class CSVLexer {
         position++;
       }
     }
-    return new CSVToken(CSVTokenType.QUOTED_TOKEN
+    return new CSVToken(CSVTokenType.QUOTED_VALUE);
   }
   public int getPosition() {
     return position;
