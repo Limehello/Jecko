@@ -2,6 +2,7 @@ package com.limehello.jecko.text.csv;
 
 import com.limehello.jecko.text.csv.CSVToken;
 import com.limehello.jecko.text.csv.CSVTokenType;
+import com.limehello.jecko.text.csv.CSVException;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -33,7 +34,7 @@ public class CSVLexer {
   public boolean hasMoreTokens() {
     return position < input.length();
   }
-  public CSVToken nextToken() {
+  public CSVToken nextToken() throws CSVException {
     if (position >= input.length()) {
       return null;
     }
@@ -47,7 +48,7 @@ public class CSVLexer {
       return buildUnquotedToken();
     }
   }
-  private CSVToken buildQuotedToken() {
+  private CSVToken buildQuotedToken() throws CSVException {
     StringBuilder value = new StringBuilder();
     position++;
     while (hasMoreTokens()) {
@@ -65,15 +66,20 @@ public class CSVLexer {
         position++;
       }
     }
-    if (position 
+    if (position >= input.length() || input.charAt(position - 1) != '"') {
+      throw new CSVException("Unclosed quoted value at position: " + (position - 1));
+    }
     return new CSVToken(value.toString(), CSVTokenType.QUOTED_VALUE);
   }
-  private CSVToken buildUnquotedToken() {
+  private CSVToken buildUnquotedToken() throws CSVException {
     StringBuilder value = new StringBuilder();
     while (hasMoreTokens()) {
       char currentChar = input.charAt(position);
       if (currentChar == ',' || currentChar == '\n' || currentChar == '\r') {
         break;
+      }
+      if (Character.isWhitespace(currentChar)) {
+        throw new CSVException("Invalid whitespace in unquoted value at position: " + position);
       }
       value.append(currentChar);
       position++;
