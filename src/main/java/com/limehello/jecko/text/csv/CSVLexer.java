@@ -59,10 +59,24 @@ public class CSVLexer {
           position += 2;
         } else {
           position++;
-          if (hasMoreTokens() && input.charAt(position) != ',' && !Character.isWhitespace(input.charAt(position))) {
-            throw new CSVException(
-                        "Unexpected character after closing quote at position: " + position
-                    );
+          if (hasMoreTokens()) {
+            char nextChar = input.charAt(position);
+            if (nextChar == ',' || nextChar == '\n' || nextChar == '\r') {
+              break;
+            } else if (Character.isWhitespace(nextChar)) {
+              skipWhitespace();
+              if (hasMoreTokens() && input.charAt(position) == ',') {
+                break;
+              } else if (hasMoreTokens()) {
+                throw new CSVException(
+                                "Unexpected character after closing quote at position: " + position
+                            );
+              }
+            } else {
+              throw new CSVException(
+                                "Unexpected character after closing quote at position: " + position
+                            );
+            }
           }
           break;
         }
