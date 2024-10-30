@@ -3,16 +3,16 @@ package com.limehello.jecko.text.csv;
 import com.limehello.jecko.text.csv.CSVTokenType;
 
 public class CSVToken {
-    private char value;
+    private String value;
     private CSVTokenType type;
-    public CSVToken(char value, CSVTokenType type) {
+    public CSVToken(String value, CSVTokenType type) {
         this.value = value;
         this.type = type;
     }
     public CSVTokenType getType() {
         return type;
     }
-    public char getValue() {
+    public String getValue() {
         return value;
     }
     @Override
