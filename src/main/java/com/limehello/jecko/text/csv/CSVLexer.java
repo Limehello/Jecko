@@ -21,9 +21,11 @@ public class CSVLexer {
       } else if (currentChar == ',') {
         tokens.add(currentChar, CSVTokenType.COMMA);
         position++;
-      } else {
-        
-      }
+      } else if (currentChar == '\n') {
+        tokens.add(currentChar, CSVTokenType.NEWLINE);
+        position++;
+      } else (currentChar == ')tokens.add(currentChar, CSVTokenType.TOKEN);
+      tokens.add(currentChar, CSVTokenType.QUOTE);
     }
   }
 }
