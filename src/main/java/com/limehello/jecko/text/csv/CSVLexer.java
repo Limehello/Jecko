@@ -13,7 +13,7 @@ public class CSVLexer {
   public CSVLexer() {
     tokens = new ArrayList<>();
   }
-  public List<CSVToken> tokenize(String input) {
+  public List<CSVToken> tokenize(String input) throws CSVException {
     this.input = input;
     this.position = 0;
     tokens.clear();
