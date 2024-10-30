@@ -17,9 +17,9 @@ public class CSVLexer {
     while (position < input.length()) {
       char currentChar = input.charAt(position);
       if (Character.isWhitespace(currentChar)) {
-        tokens.add(input.charAt(position), );
+        tokens.add(input.charAt(position), CSVTokenType.WHITESPACE);
         position++;
-      } else if ()
+      } else if (current Char)
     }
   }
 }
