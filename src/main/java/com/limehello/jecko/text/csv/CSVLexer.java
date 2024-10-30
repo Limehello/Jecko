@@ -4,6 +4,8 @@ import com.limehello.jecko.text.csv.CSVToken;
 import com.limehello.jecko.text.csv.CSVTokenType;
 
 public class CSVLexer {
+  private char quote = "\"";
+  private char comma = ",";
   private String input;
   private int position;
   public CSVLexer(String input) {
@@ -17,9 +19,10 @@ public class CSVLexer {
     while (position < input.length()) {
       char currentChar = input.charAt(position);
       if (Character.isWhitespace(currentChar)) {
-        tokens.add(input.charAt(position), CSVTokenType.WHITESPACE);
+        tokens.add(currentChar, CSVTokenType.WHITESPACE);
         position++;
-      } else if (current Char)
+      } else if (currentChar)
     }
   }
+  public boolean isComm
 }
