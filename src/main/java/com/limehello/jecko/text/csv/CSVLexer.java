@@ -15,4 +15,21 @@ public class CSVLexer {
   public List<String> tokenize() {
     
   }
+  public void skipWhitespace() {
+    while (Character.isWhitespace()) {
+      position++;
+    }
+  }
+  public boolean hasMoreTokens() {
+    return position < input.length();
+  }
+  public char next() {
+    return input.charAt(position++);
+  }
+  public char peek() {
+    return input.charAt(position + 1);
+  }
+  public char getPosition() {
+    return position;
+  }
 }
