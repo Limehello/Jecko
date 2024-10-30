@@ -65,6 +65,7 @@ public class CSVLexer {
         position++;
       }
     }
+    if (position 
     return new CSVToken(value.toString(), CSVTokenType.QUOTED_VALUE);
   }
   private CSVToken buildUnquotedToken() {
