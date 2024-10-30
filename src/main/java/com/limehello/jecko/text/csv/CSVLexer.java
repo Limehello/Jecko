@@ -59,6 +59,11 @@ public class CSVLexer {
           position += 2;
         } else {
           position++;
+          if (hasMoreTokens() && input.charAt(position) != ',' && !Character.isWhitespace(input.charAt(position))) {
+            throw new CSVException(
+                        "Unexpected character after closing quote at position: " + position
+                    );
+          }
           break;
         }
       } else {
