@@ -5,4 +5,5 @@ Jecko could be a java library in the future, It's main purpose is to decode ever
 
 ### How to clone this project?
 Go to your terminal, run the command:
-`git clone https://github.com/Limehello/Jecko.git`
+```bash
+git clone https://github.com/Limehello/Jecko.git```
