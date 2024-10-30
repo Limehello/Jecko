@@ -36,11 +36,32 @@ public class CSVLexer {
     char currentChar = input.charAt(position);
     if (currentChar == ',') {
       position++;
-      return new CSVToken();
+      return new CSVToken(',', CSVTokenType.COMMA);
+    } else if (currentChar == '"') {
+      
+    } else {
+      
     }
   }
-  public CSVToken buildToken() {
-    
+  private CSVToken buildQuotedToken() {
+    StringBuilder value = new StringBuilder();
+    position++;
+    while (hasMoreTokens) {
+      char currentChar = input.charAt(position);
+      if (currentChar == '"') {
+        if (position + 1 < input.length() && input.charAt(position + 1) == '"') {
+          value.append('"');
+          position += 2;
+        } else {
+          position++;
+          break;
+        }
+      } else {
+        value.append(currentChar);
+        position++;
+      }
+    }
+    return new CSVToken(CSVTokenType.QUOTED_TOKEN
   }
   public int getPosition() {
     return position;
