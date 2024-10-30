@@ -18,11 +18,15 @@ public class CSVLexer {
     tokens.clear();
     while (hasMoreTokens()) {
       skipWhitespace();
-      CSVToken = nextToken();
+      CSVToken token = nextToken();
+      if (token != null) {
+        tokens.add(token);
+      }
     }
+    return tokens;
   }
   public void skipWhitespace() {
-    while (Character.isWhitespace()) {
+    while (hasMoreTokens() && Character.isWhitespace(input.charAt(position))) {
       position++;
     }
   }
@@ -38,9 +42,9 @@ public class CSVLexer {
       position++;
       return new CSVToken(",", CSVTokenType.COMMA);
     } else if (currentChar == '"') {
-      
+      return buildQuotedToken();
     } else {
-      
+      return buildUnquotedToken();
     }
   }
   private CSVToken buildQuotedToken() {
@@ -63,7 +67,7 @@ public class CSVLexer {
     }
     return new CSVToken(value.toString(), CSVTokenType.QUOTED_VALUE);
   }
-  public CSVToken buildUnquotedToken() {
+  private CSVToken buildUnquotedToken() {
     StringBuilder value = new StringBuilder();
     while (hasMoreTokens()) {
       char currentChar = input.charAt(position);
