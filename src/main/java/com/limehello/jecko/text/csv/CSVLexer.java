@@ -13,21 +13,6 @@ public class CSVLexer {
     this.position = 0;
   }
   public List<String> tokenize() {
-    List<CSVToken> tokens = new ArrayList<>();
-    tokens.clear();
-    this.position = 0;
-    while (position < input.length()) {
-      char currentChar = input.charAt(position);
-      if (Character.isWhitespace(currentChar)) {
-        position++;
-      } else if (currentChar == ',') {
-        tokens.add(currentChar, CSVTokenType.COMMA);
-        position++;
-      } else if (currentChar == '\n') {
-        tokens.add(currentChar, CSVTokenType.NEWLINE);
-        position++;
-      } else (currentChar == ')tokens.add(currentChar, CSVTokenType.TOKEN);
-      tokens.add(currentChar, CSVTokenType.QUOTE);
-    }
+    
   }
 }
