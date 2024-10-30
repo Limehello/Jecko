@@ -8,11 +8,14 @@ import java.util.ArrayList;
 public class CSVLexer {
   private String input;
   private int position;
+  private List<String> tokens;
   public CSVLexer(String input) {
     this.input = input;
     this.position = 0;
+    tokens = new ArrayList<>();
   }
   public List<String> tokenize() {
+    tokens.clear();
     
   }
   public void skipWhitespace() {
