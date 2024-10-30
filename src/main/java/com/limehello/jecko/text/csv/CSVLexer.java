@@ -16,7 +16,7 @@ public class CSVLexer {
     this.input = input;
     this.position = 0;
     tokens.clear();
-    while (hasMoreTokens) {
+    while (hasMoreTokens()) {
       skipWhitespace();
       CSVToken = nextToken();
     }
@@ -36,7 +36,7 @@ public class CSVLexer {
     char currentChar = input.charAt(position);
     if (currentChar == ',') {
       position++;
-      return new CSVToken(',', CSVTokenType.COMMA);
+      return new CSVToken(",", CSVTokenType.COMMA);
     } else if (currentChar == '"') {
       
     } else {
@@ -46,7 +46,7 @@ public class CSVLexer {
   private CSVToken buildQuotedToken() {
     StringBuilder value = new StringBuilder();
     position++;
-    while (hasMoreTokens) {
+    while (hasMoreTokens()) {
       char currentChar = input.charAt(position);
       if (currentChar == '"') {
         if (position + 1 < input.length() && input.charAt(position + 1) == '"') {
@@ -61,7 +61,19 @@ public class CSVLexer {
         position++;
       }
     }
-    return new CSVToken(CSVTokenType.QUOTED_VALUE);
+    return new CSVToken(value.toString(), CSVTokenType.QUOTED_VALUE);
+  }
+  public CSVToken buildUnquotedToken() {
+    StringBuilder value = new StringBuilder();
+    while (hasMoreTokens()) {
+      char currentChar = input.charAt(position);
+      if (currentChar == ',' || currentChar == '\n' || currentChar == '\r') {
+        break;
+      }
+      value.append(currentChar);
+      position++;
+    }
+    return new CSVToken(value.toString(), CSVTokenType.UNQUOTED_VALUE);
   }
   public int getPosition() {
     return position;
