@@ -8,15 +8,18 @@ import java.util.ArrayList;
 public class CSVLexer {
   private String input;
   private int position;
-  private List<String> tokens;
-  public CSVLexer(String input) {
-    this.input = input;
-    this.position = 0;
+  private List<CSVToken> tokens;
+  public CSVLexer() {
     tokens = new ArrayList<>();
   }
-  public List<String> tokenize() {
+  public List<CSVToken> tokenize(String input) {
+    this.input = input;
+    this.position = 0;
     tokens.clear();
-    
+    while (hasMoreTokens) {
+      skipWhitespace();
+      CSVToken = nextToken();
+    }
   }
   public void skipWhitespace() {
     while (Character.isWhitespace()) {
@@ -26,13 +29,20 @@ public class CSVLexer {
   public boolean hasMoreTokens() {
     return position < input.length();
   }
-  public char next() {
-    return input.charAt(position++);
+  public CSVToken nextToken() {
+    if (position >= input.length()) {
+      return null;
+    }
+    char currentChar = input.charAt(position);
+    if (currentChar == ',') {
+      position++;
+      return new CSVToken();
+    }
   }
-  public char peek() {
-    return input.charAt(position + 1);
+  public CSVToken buildToken() {
+    
   }
-  public char getPosition() {
+  public int getPosition() {
     return position;
   }
 }
