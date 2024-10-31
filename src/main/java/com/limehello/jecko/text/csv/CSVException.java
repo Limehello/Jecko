@@ -15,7 +15,7 @@ public class CSVException extends IOException {
         return "Unclosed quotes at position: " + position;
       case "SPACES_BETWEEN":
         return "Spaces within unquoted value at position: " + position;
-      case "INVALID_CHARACTER"
+      case "INVALID_CHARACTER":
         return "Invalid character from unavailable charset at position: " + position;
       default:
         return defaultMsg;
