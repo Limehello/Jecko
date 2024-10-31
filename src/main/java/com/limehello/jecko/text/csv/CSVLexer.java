@@ -9,7 +9,7 @@ import java.util.List;
 public class CSVLexer {
   private String input;
   private int position;
-  private char currentChar;
+  private CSVToken currentToken;
   private List<CSVToken> tokens;
   private boolean ignoreWhitespace;
   
@@ -17,16 +17,18 @@ public class CSVLexer {
     tokens = new ArrayList<>();
     ignoreWhitespace= true;
   }
-  public List<String> tokenize() throws CSVException {
+  public List<String> tokenize(String input) throws CSVException {
+    this.input = input;
+    this.position = 0;
+    this.currentToken = new CSVToken(input.charAt(position), );
+  }
+  private void nextToken() throws CSVException {
     
   }
-  public void nextToken() {
-    
-  }
-  public boolean hasMoreTokens() {
+  private boolean hasMoreTokens() {
     return position < input.length();
   }
-  public void skipWhitespace() {
+  private void skipWhitespace() {
     while (hasMoreTokens() && Character.isWhitespace(currentChar)) {
       position++;
     }
