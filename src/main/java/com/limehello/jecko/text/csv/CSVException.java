@@ -4,5 +4,12 @@ import com.limehello.jecko.text.csv.CSVExceptionType;
 import java.io.IOException;
 
 public class CSVException extends IOException {
-  public CSVException()
+  public CSVException(CSVExceptionType errorType) {
+    super(buildMessage());
+  }
+  public String buildMessage(CSVExceptionType type) {
+    switch (type) {
+      case "
+    }
+  }
 }
