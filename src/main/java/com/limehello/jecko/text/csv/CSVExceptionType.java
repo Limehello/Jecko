@@ -1,4 +1,4 @@
-package com.limehello.jecko.text.csv
+package com.limehello.jecko.text.csv;
 
 public enum CSVExceptionType {
   UNCLOSED_QUOTES,
