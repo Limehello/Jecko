@@ -9,21 +9,37 @@ import java.util.List;
 public class CSVLexer {
   private String input;
   private int position;
-  private CSVToken currentToken;
   private List<CSVToken> tokens;
-  private boolean ignoreWhitespace;
   
   public CSVLexer() {
     tokens = new ArrayList<>();
-    ignoreWhitespace= true;
   }
   public List<String> tokenize(String input) throws CSVException {
     this.input = input;
     this.position = 0;
-    this.currentToken = new CSVToken(input.charAt(position), );
+    while (hasMoreTokens()) {
+      skipWhitespace();
+      CSVToken token = nextToken();
+    }
   }
-  private void nextToken() throws CSVException {
-    
+  private CSVToken nextToken() throws CSVException {
+    char currentChar = getCurrentChar();
+    char nextChar getNextChar();
+    while (hasMoreTokens())
+      if (Character.isWhitespace(currentChar)) {
+      position++;
+    } else if (isCommaChar(currentChar)) {
+      position++;
+      
+      if (nextChar == '"') {
+      }
+    }
+  }
+  private char getCurrentChar() {
+    return input.charAt(position);
+  }
+  private char getNextChar() {
+    return input.charAt(position + 1);
   }
   private boolean hasMoreTokens() {
     return position < input.length();
@@ -32,5 +48,11 @@ public class CSVLexer {
     while (hasMoreTokens() && Character.isWhitespace(currentChar)) {
       position++;
     }
+  }
+  private static boolean isCommaChar(char ch) {
+    return ch == ',';
+  }
+  private static boolean isQuoteChar(char ch) {
+    return ch == '"';
   }
 }
